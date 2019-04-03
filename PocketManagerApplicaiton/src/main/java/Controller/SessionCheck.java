@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class SessionCheck {
     public static void setSessionUser(HttpServletRequest request, String attributeValue){
+
         request.setAttribute("user",attributeValue);  ////la apel attributeValue este ADMIN sau USER
 
     }
