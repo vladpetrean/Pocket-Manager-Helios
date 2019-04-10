@@ -30,6 +30,6 @@
         <property name="show_sql">true</property>
 
         <mapping class="Model.User"/>
-        <mapping class="Model.Account" />
+        <mapping class="Model.Account"/>
     </session-factory>
 </hibernate-configuration>

@@ -1,11 +1,12 @@
 package Configuration;
 
 import Model.Account;
+import Model.User;
 import org.hibernate.Session;
 
 import java.util.ArrayList;
 
-public class DatabseOperation {
+public class DatabaseOperation {
 
     public static ArrayList<Account> obtainAdministrator() {
 
@@ -16,4 +17,15 @@ public class DatabseOperation {
         HibernateConfiguration.getSessionFactory().close();
         return administratorArrayList;
     }
+
+    public static ArrayList<User> obtainUser() {
+
+        HibernateConfiguration.createConnection();
+        Session session = HibernateConfiguration.getSessionFactory().openSession();
+        ArrayList<User> userArrayList = (ArrayList<User>) session.createCriteria(User.class).list();
+
+        HibernateConfiguration.getSessionFactory().close();
+        return userArrayList;
+    }
+
 }
