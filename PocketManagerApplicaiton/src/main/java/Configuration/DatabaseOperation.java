@@ -47,10 +47,10 @@ public class DatabaseOperation {
         ArrayList<User> userArrayList = (ArrayList<User>) session.createCriteria(User.class).list();
         for (User userIterate: userArrayList){
             if(userIterate.getUsername().equals(username)){
-              return userIterate;
+                HibernateConfiguration.getSessionFactory().close();
+                return userIterate;
             }
         }
-        HibernateConfiguration.getSessionFactory().close();
         return user;
     }
 
@@ -64,5 +64,27 @@ public class DatabaseOperation {
             }
         }
         return userAccountArrayList;
+    }
+
+    public static Account getSingleAccount(int account_id) {
+        HibernateConfiguration.createConnection();
+        Session session = HibernateConfiguration.getSessionFactory().openSession();
+        ArrayList<Account> accountArrayList = (ArrayList<Account>) session.createCriteria(Account.class).list();
+        for (Account account: accountArrayList){
+            if(account.getId() == account_id){
+                HibernateConfiguration.getSessionFactory().close();
+                return account;
+            }
+        }
+        return null;
+    }
+
+    public static void deleteAccount(Account account) {
+        HibernateConfiguration.createConnection();
+        Session session = HibernateConfiguration.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.delete(account);
+        session.getTransaction().commit();
+        HibernateConfiguration.getSessionFactory().close();
     }
 }

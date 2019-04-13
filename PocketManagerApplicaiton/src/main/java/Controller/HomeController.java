@@ -1,21 +1,18 @@
 package Controller;
 
 
+import Configuration.DatabaseOperation;
+import Model.Account;
+import Model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import java.util.ArrayList;
-
-import Model.User;
-import Model.Account;
-
-import Configuration.DatabaseOperation;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 
 import static Controller.AuxiliaryFunction.CheckPassword;
 import static Controller.AuxiliaryFunction.setSessionUser;
@@ -55,21 +52,55 @@ public class HomeController {
 
     @GetMapping({"/home/{username}"})
     public String display_home(Model model, HttpServletRequest request, @PathVariable String username){
-        User user =  DatabaseOperation.getSingleUser(username);
-        ArrayList<Account> accountArrayList = DatabaseOperation.obtainUserAccount(user.getId());
-        model.addAttribute("accountArrayList", accountArrayList);
-        return "home";
+        if (AuxiliaryFunction.getSessionUser(request)) {
+            User user = DatabaseOperation.getSingleUser(username);
+            ArrayList<Account> accountArrayList = DatabaseOperation.obtainUserAccount(user.getId());
+            model.addAttribute("accountArrayList", accountArrayList);
+            return "home";
+        } else {
+            return "index";
+        }
     }
 
-    /*TO DO CREATE ACCOUNT*/
+
     @PostMapping({"/create_account/{username}"})
-    public String create_account(Model model, HttpServletRequest request, @PathVariable String username){
+    public RedirectView create_account(Model model, HttpServletRequest request, @PathVariable String username) {
+        if (AuxiliaryFunction.getSessionUser(request)) {
         User user =  DatabaseOperation.getSingleUser(username);
         model.addAttribute("user_id", user.getId());
+            String type = request.getParameter("type");
+            String accountName = request.getParameter("accountName");
+            String currency = request.getParameter("currency");
+            String amount = request.getParameter("amount");
         Account account = new Account();
+            account.setAccountName(accountName);
+            account.setType(type);
+            account.setCurrency(currency);
+            account.setUserId(user.getId());
+            try {
+                account.setAmount(Integer.parseInt(amount));
+                DatabaseOperation.createAccount(account);
 
-        DatabaseOperation.createAccount(account);
-        return "home";
+            } catch (Exception excetpion) {
+                System.out.println(excetpion);
+            }
+            return new RedirectView("/home/" + username);
+        } else {
+            return new RedirectView("/index");
+        }
     }
 
+    @GetMapping({"/delete_account/{username}/{account_id}"})
+    public RedirectView delete_account(Model model, HttpServletRequest request, @PathVariable int account_id, @PathVariable String username) {
+        if (AuxiliaryFunction.getSessionUser(request)) {
+            Account account = DatabaseOperation.getSingleAccount(account_id);
+            if (account != null) {
+                DatabaseOperation.deleteAccount(account);
+            }
+
+            return new RedirectView("/home/" + username);
+        } else {
+            return new RedirectView("/index");
+        }
+    }
 }

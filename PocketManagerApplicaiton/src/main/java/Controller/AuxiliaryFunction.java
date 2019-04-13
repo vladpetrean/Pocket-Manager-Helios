@@ -2,6 +2,7 @@ package Controller;
 
 import Configuration.DatabaseOperation;
 import Model.User;
+import sun.security.smartcardio.SunPCSC;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,7 +25,16 @@ public class AuxiliaryFunction {
 
     public static void setSessionUser(HttpServletRequest request, String attributeValue){
 
-        request.setAttribute("user", attributeValue);  ////la apel attributeValue este ADMIN sau USER
+        request.setAttribute("user", attributeValue);
+
+    }
+    public static Boolean getSessionUser(HttpServletRequest request){
+
+        if(request.getAttribute("user") != null){
+            System.out.println("Gasit cookie");
+            return true;
+        }
+        return false;
 
     }
 }

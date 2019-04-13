@@ -8,7 +8,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
-<body>
+<body bgcolor="F9D665">
 
 <div style="background-color:#0066ff;height:70px">
   <button class="btn" style="float:left;margin-left:10px;margin-top:10px">LOGO</button>
