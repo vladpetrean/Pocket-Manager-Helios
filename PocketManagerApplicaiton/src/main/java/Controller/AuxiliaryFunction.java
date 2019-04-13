@@ -4,7 +4,9 @@ import Configuration.DatabaseOperation;
 import Model.User;
 import sun.security.smartcardio.SunPCSC;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import java.util.ArrayList;
 
@@ -23,16 +25,17 @@ public class AuxiliaryFunction {
         return false;
     }
 
-    public static void setSessionUser(HttpServletRequest request, String attributeValue){
-
-        request.setAttribute("user", attributeValue);
+    public static void setSessionUser(HttpServletResponse response, String attributeValue){
+        response.addCookie(new Cookie("user", attributeValue));
 
     }
     public static Boolean getSessionUser(HttpServletRequest request){
 
-        if(request.getAttribute("user") != null){
-            System.out.println("Gasit cookie");
-            return true;
+        for(Cookie cookie: request.getCookies()){
+            if(cookie.getName().equals("user")){
+                System.out.println("Gasit");
+                return true;
+            }
         }
         return false;
 

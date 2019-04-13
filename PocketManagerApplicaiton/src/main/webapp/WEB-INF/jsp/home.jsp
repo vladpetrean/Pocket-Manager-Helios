@@ -11,7 +11,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 </head>
-<body bgcolor="F9D665">
+<body bgcolor="FCD437">
 
 <div class="container">
     <div class="row-sm-8 text-center">
@@ -39,12 +39,12 @@
         <h3> List accounts</h3>
         <table class="table">
             <tr>
-                <th>Account name</th>
-                <th>Currency</th>
-                <th>Type</th>
-                <th>Amount</th>
-                <th>Edit</th>
-                <th>Delete</th>
+                <th align="center">Account name</th>
+                <th align="center">Currency</th>
+                <th align="center">Type</th>
+                <th align="center">Amount</th>
+                <th align="center">Edit</th>
+                <th align="center">Delete</th>
             </tr>
             <c:forEach var="account" items="${accountArrayList}">
             <tr>
@@ -52,8 +52,8 @@
                 <td>${account.currency}</td>
                 <td>${account.type}</td>
                 <td>${account.amount}</td>
-                <td style="color: blue"><a href="edit_account/${username}/${account.id}"></a>Edit</td>
-                <td style="color: red;"><a href="delete_account/${username}/${account.id}"></a>Delete</td>
+                <td style="color: blue"><a href="/edit_account/${username}/${account.id}">Edit</a></td>
+                <td style="color: red"><a href="/delete_account/${username}/${account.id}">Delete</a></td>
             </tr>
             </c:forEach>
         </table>

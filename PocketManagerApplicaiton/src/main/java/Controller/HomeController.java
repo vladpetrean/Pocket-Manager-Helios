@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
 import static Controller.AuxiliaryFunction.CheckPassword;
@@ -27,7 +28,7 @@ public class HomeController {
     }
 
     @PostMapping({"/index"})
-    public RedirectView sign_in_post(Model model, HttpServletRequest request) {
+    public RedirectView sign_in_post(Model model, HttpServletRequest request, HttpServletResponse response) {
 
         String password = request.getParameter("userPassword");
         String username = request.getParameter("userName");
@@ -35,7 +36,7 @@ public class HomeController {
             System.out.println(password);
             System.out.println(username);
             if(CheckPassword(password, username)){
-                setSessionUser(request, username);
+                setSessionUser(response, "test");
                 return new RedirectView("home/"+username);
             }
 
@@ -99,6 +100,46 @@ public class HomeController {
             }
 
             return new RedirectView("/home/" + username);
+        } else {
+            return new RedirectView("/index");
+        }
+    }
+
+    @GetMapping({"/edit_account/{username}/{account_id}"})
+    public String edit_account(Model model, HttpServletRequest request, @PathVariable int account_id, @PathVariable String username) {
+        if (AuxiliaryFunction.getSessionUser(request)) {
+            Account account = DatabaseOperation.getSingleAccount(account_id);
+            assert account != null;
+            model.addAttribute("accountType", account.getType());
+            model.addAttribute("accountName", account.getAccountName());
+            model.addAttribute("accountCurrency", account.getCurrency());
+            model.addAttribute("accountAmount", account.getAmount());
+            model.addAttribute("username", username);
+            model.addAttribute("accound_id", account_id);
+            return "edit_account";
+        } else {
+            return "index";
+        }
+    }
+
+    @PostMapping({"/edit_account/{username}/{account_id}"})
+    public RedirectView edit_account_post(Model model, HttpServletRequest request, @PathVariable int account_id, @PathVariable String username) {
+        if (AuxiliaryFunction.getSessionUser(request)) {
+            Account account = DatabaseOperation.getSingleAccount(account_id);
+            assert account != null;
+            account.setCurrency(request.getParameter("currency"));
+            account.setType(request.getParameter("type"));
+            account.setAccountName(request.getParameter("accountName"));
+            try {
+                account.setAmount(Integer.parseInt(request.getParameter("amount")));
+                DatabaseOperation.updateAccount(account);
+                return new RedirectView("/home/" + username);
+
+            } catch (Exception excetpion) {
+                System.out.println(excetpion);
+                return new RedirectView("/home/" + username);
+
+            }
         } else {
             return new RedirectView("/index");
         }

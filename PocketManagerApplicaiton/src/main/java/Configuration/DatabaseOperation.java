@@ -87,4 +87,13 @@ public class DatabaseOperation {
         session.getTransaction().commit();
         HibernateConfiguration.getSessionFactory().close();
     }
+
+    public static void updateAccount(Account account) {
+        HibernateConfiguration.createConnection();
+        Session session = HibernateConfiguration.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.update(account);
+        session.getTransaction().commit();
+        HibernateConfiguration.getSessionFactory().close();
+    }
 }
