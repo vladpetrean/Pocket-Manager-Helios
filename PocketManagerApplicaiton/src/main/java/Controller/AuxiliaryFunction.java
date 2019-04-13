@@ -11,7 +11,6 @@ public class AuxiliaryFunction {
 
     public static boolean CheckPassword(String password, String username){
         ArrayList<User> user_account_list = DatabaseOperation.obtainUser();
-        System.out.println("AJunge verificat parola");
         for(User user: user_account_list){
             if(user.getUsername().equals(username) && user.getPassword().equals(password)){
                 return true;
