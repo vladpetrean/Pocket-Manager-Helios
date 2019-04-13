@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.util.ArrayList;
-
+/* Mirela*/
 public class AuxiliaryFunction {
 
     public static boolean CheckPassword(String password, String username){

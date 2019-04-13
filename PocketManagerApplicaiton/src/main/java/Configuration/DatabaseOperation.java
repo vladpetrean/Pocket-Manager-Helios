@@ -5,7 +5,7 @@ import Model.User;
 import org.hibernate.Session;
 
 import java.util.ArrayList;
-
+/* Mirela*/
 public class DatabaseOperation {
 
     public static ArrayList<Account> obtainAdministrator() {

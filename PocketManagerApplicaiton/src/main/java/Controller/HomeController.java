@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import static Controller.AuxiliaryFunction.CheckPassword;
 import static Controller.AuxiliaryFunction.setSessionUser;
 
-
+/* Florin*/
 @Controller
 public class HomeController {
     @GetMapping({"/index"})

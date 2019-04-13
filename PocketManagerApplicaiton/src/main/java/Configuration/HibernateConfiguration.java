@@ -4,9 +4,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-
+/* Mirela*/
 public class HibernateConfiguration {
-
 
     private static SessionFactory sessionFactory;
 

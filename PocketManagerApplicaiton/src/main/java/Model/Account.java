@@ -2,7 +2,7 @@ package Model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-
+/* Vlad*/
 @Entity
 @Table(name = "account")
 public class Account{

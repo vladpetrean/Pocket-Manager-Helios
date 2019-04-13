@@ -3,7 +3,7 @@ package Model;
 
 import javax.persistence.*;
 import java.io.Serializable;
-
+/* Vlad*/
 @Entity
 @Table(name = "user")
 public class User{
