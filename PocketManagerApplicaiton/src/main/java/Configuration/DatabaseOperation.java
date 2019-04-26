@@ -79,6 +79,19 @@ public class DatabaseOperation {
         return null;
     }
 
+    public static Account getSingleAccountByName(String account_name) {
+        HibernateConfiguration.createConnection();
+        Session session = HibernateConfiguration.getSessionFactory().openSession();
+        ArrayList<Account> accountArrayList = (ArrayList<Account>) session.createCriteria(Account.class).list();
+        for (Account account: accountArrayList){
+            if(account.getAccountName().equals(account_name)){
+                HibernateConfiguration.getSessionFactory().close();
+                return account;
+            }
+        }
+        return null;
+    }
+
     public static void deleteAccount(Account account) {
         HibernateConfiguration.createConnection();
         Session session = HibernateConfiguration.getSessionFactory().openSession();

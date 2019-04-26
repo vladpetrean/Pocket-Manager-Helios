@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Bootstrap Example</title>
+    <title>Helios Pocket Manager</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
@@ -29,7 +29,7 @@
           Last name:<br>
           <input type="password" name="userPassword">
           <br><br>
-          <input type="submit" value="Submit">
+          <input type="submit" value="Login">
       </form>
 
         <p>Atentie!!! Fiind o aplicatie neprofesionista, nu garantam integritatea datelor dumneavoastra</p>

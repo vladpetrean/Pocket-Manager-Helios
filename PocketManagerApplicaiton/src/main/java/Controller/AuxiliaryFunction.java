@@ -1,6 +1,7 @@
 package Controller;
 
 import Configuration.DatabaseOperation;
+import Model.Account;
 import Model.User;
 import sun.security.smartcardio.SunPCSC;
 
@@ -39,5 +40,15 @@ public class AuxiliaryFunction {
         }
         return false;
 
+    }
+
+    public static Boolean verifyName(Account new_account, int user_id){
+        ArrayList<Account> accountArrayList = DatabaseOperation.obtainUserAccount(user_id);
+        for(Account account: accountArrayList){
+            if(account.getAccountName().equals(new_account.getAccountName())){
+                return false;
+            }
+        }
+        return true;
     }
 }

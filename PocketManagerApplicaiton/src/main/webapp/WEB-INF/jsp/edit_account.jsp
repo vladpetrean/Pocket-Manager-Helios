@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Bootstrap Example</title>
+    <title>Helios Pocket Manager</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
@@ -15,7 +15,7 @@
 
 <div class="container">
     <div class="row-sm-8 text-center">
-        <h3>Welcome ${username}</h3>
+        <h3>Edict account with id  ${account_id}</h3>
     </div>
 
     <form action="/edit_account/${username}/${account_id}", method="post">

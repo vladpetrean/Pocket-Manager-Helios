@@ -15,8 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 
-import static Controller.AuxiliaryFunction.CheckPassword;
-import static Controller.AuxiliaryFunction.setSessionUser;
+import static Controller.AuxiliaryFunction.*;
 
 /* Florin*/
 @Controller
@@ -67,21 +66,25 @@ public class HomeController {
     @PostMapping({"/create_account/{username}"})
     public RedirectView create_account(Model model, HttpServletRequest request, @PathVariable String username) {
         if (AuxiliaryFunction.getSessionUser(request)) {
-        User user =  DatabaseOperation.getSingleUser(username);
-        model.addAttribute("user_id", user.getId());
+            User user = DatabaseOperation.getSingleUser(username);
+            model.addAttribute("user_id", user.getId());
             String type = request.getParameter("type");
             String accountName = request.getParameter("accountName");
             String currency = request.getParameter("currency");
             String amount = request.getParameter("amount");
-        Account account = new Account();
+            Account account = new Account();
             account.setAccountName(accountName);
             account.setType(type);
             account.setCurrency(currency);
             account.setUserId(user.getId());
+
             try {
                 account.setAmount(Integer.parseInt(amount));
-                DatabaseOperation.createAccount(account);
-
+                if (verifyName(account, user.getId())) {
+                    DatabaseOperation.createAccount(account);
+                } else {
+                    return new RedirectView("/home/" + username);
+                }
             } catch (Exception excetpion) {
                 System.out.println(excetpion);
             }
@@ -140,6 +143,44 @@ public class HomeController {
                 return new RedirectView("/home/" + username);
 
             }
+        } else {
+            return new RedirectView("/index");
+        }
+    }
+
+    @PostMapping({"/transfer_ammount/{username}"})
+    public RedirectView transfer_ammount(Model model, HttpServletRequest request, @PathVariable String username) {
+        if (AuxiliaryFunction.getSessionUser(request)) {
+
+            String account_name_source = request.getParameter("account_source_name");
+            String account_name_destination = request.getParameter("account_destination_name");
+
+            Account account_source = DatabaseOperation.getSingleAccountByName(account_name_source);
+            Account account_destination = DatabaseOperation.getSingleAccountByName(account_name_destination);
+            try {
+                int ammout = Integer.parseInt(request.getParameter("amount_transfer"));
+                assert account_source != null;
+                assert account_destination != null;
+                if(account_source.getAmount() < ammout){
+                    System.out.println("Not enough ammount");
+                    return new RedirectView("/home/" + username);
+                }
+                int new_ammount_destination = account_destination.getAmount() + ammout;
+                int new_ammount_source = account_destination.getAmount() - ammout;
+                System.out.println(new_ammount_source);
+                System.out.println(new_ammount_destination);
+
+                account_destination.setAmount(new_ammount_destination);
+                account_source.setAmount(new_ammount_source);
+                DatabaseOperation.updateAccount(account_destination);
+                DatabaseOperation.updateAccount(account_source);
+                return new RedirectView("/home/" + username);
+            } catch (Exception e) {
+                System.out.println(e);
+                return new RedirectView("/home/" + username);
+
+            }
+
         } else {
             return new RedirectView("/index");
         }
