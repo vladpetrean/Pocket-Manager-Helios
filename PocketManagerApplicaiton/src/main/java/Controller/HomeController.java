@@ -166,10 +166,12 @@ public class HomeController {
                     return new RedirectView("/home/" + username);
                 }
                 int new_ammount_destination = account_destination.getAmount() + ammout;
-                int new_ammount_source = account_destination.getAmount() - ammout;
+                int new_ammount_source = account_source.getAmount() - ammout;
                 System.out.println(new_ammount_source);
                 System.out.println(new_ammount_destination);
-
+                if(new_ammount_source < 1000){
+                    Notification.send_email("vladimir_daniel@yahoo.com", "You current ammount si under 1000 Euro.");
+                }
                 account_destination.setAmount(new_ammount_destination);
                 account_source.setAmount(new_ammount_source);
                 DatabaseOperation.updateAccount(account_destination);
